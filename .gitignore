@@ -1,0 +1,29 @@
+# Virtual Environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# API Keys & Secrets
+.env
+.env.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Googleアカウントのログイン情報を含むため共有しない
+browser_profile/
+
+# 通信の生データ（デバッグ用）
+data/debug/
+
+# スクレイピング生データ・処理済みデータ・ログ（個人情報・容量対策）
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+data/logs/*
+!data/logs/.gitkeep
