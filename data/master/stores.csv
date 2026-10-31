@@ -1,3 +1,14 @@
-store_key,store_id,store_name,brand,genre,area,url
-store_1,akakara_unknown_1,赤から（店名要確認）,赤から,鍋・居酒屋,,https://maps.app.goo.gl/x7w1BV9Pi93DAwXw8?g_st=ic
-store_2,akakara_tsukuba_kenkyugakuen,赤から つくば研究学園店,赤から,鍋・居酒屋,茨城県つくば市,https://maps.app.goo.gl/Xw9nXrYahufaaavQ9?g_st=ic
+store_key,store_id,store_name,brand,genre,area,url,place_id
+store_1,akakara_unknown_1,赤から（店名要確認）,赤から,鍋・居酒屋,,https://maps.app.goo.gl/x7w1BV9Pi93DAwXw8?g_st=ic,
+store_2,akakara_tsukuba_kenkyugakuen,赤から つくば研究学園店,赤から,鍋・居酒屋,茨城県つくば市,https://maps.app.goo.gl/Xw9nXrYahufaaavQ9?g_st=ic,
+store_3,akakara_kashiwa_nishiguchi,赤から 柏西口店,赤から,鍋・居酒屋,千葉県柏市,"https://www.google.com/maps/place/%E8%B5%A4%E3%81%8B%E3%82%89%E6%9F%8F%E8%A5%BF%E5%8F%A3%E5%BA%97/@35.8619983,139.9690779,17z/data=!3m1!4b1!4m6!3m5!1s0x60189dac824798bb:0xf769a8a0378e9305!8m2!3d35.8619983!4d139.9690779!16s%2Fg%2F11gtb80l0d",
+store_4,akakara_ueno_ekimae,赤から 上野駅前店,赤から,鍋・居酒屋,東京都台東区,"https://www.google.com/maps/place/%E8%B5%A4%E3%81%8B%E3%82%89+%E4%B8%8A%E9%87%8E%E9%A7%85%E5%89%8D%E5%BA%97/@35.7101336,139.775601,17z/data=!3m1!4b1!4m6!3m5!1s0x60188fd41dbd180b:0xe2cd96f6bd712cc3!8m2!3d35.7101336!4d139.775601!16s%2Fg%2F11fhryl955",
+store_5,akakara_ikebukuro_nishiguchi,赤から 池袋西口店,赤から,鍋・居酒屋,東京都豊島区,"https://www.google.com/maps/place/%E8%B5%A4%E3%81%8B%E3%82%89+%E6%B1%A0%E8%A2%8B%E8%A5%BF%E5%8F%A3%E5%BA%97/@35.7327829,139.7094838,17z/data=!3m1!4b1!4m6!3m5!1s0x60188d5e65ad4f27:0x221d26d7aade87ab!8m2!3d35.7327829!4d139.7094838!16s%2Fg%2F1ptvsb50s",
+store_6,akakara_kitasenju,赤から 北千住店,赤から,鍋・居酒屋,東京都足立区,https://www.google.com/maps/search/?api=1&query=%E8%B5%A4%E3%81%8B%E3%82%89%20%E5%8C%97%E5%8D%83%E4%BD%8F%E5%BA%97&query_place_id=ChIJK0pHd0WOGGARGcaHADggmZo,ChIJK0pHd0WOGGARGcaHADggmZo
+store_7,akakara_dokkyo_daigakumae_ekihigashiguchi,赤から 獨協大学前駅東口店,赤から,鍋・居酒屋,埼玉県草加市,https://www.google.com/maps/search/?api=1&query=%E8%B5%A4%E3%81%8B%E3%82%89%20%E7%8D%A8%E5%8D%94%E5%A4%A7%E5%AD%A6%E5%89%8D%E9%A7%85%E6%9D%B1%E5%8F%A3%E5%BA%97&query_place_id=ChIJRbAm7tSRGGAR7Xcfcds6PJM,ChIJRbAm7tSRGGAR7Xcfcds6PJM
+store_8,akakara_shinjuku_higashiguchi,赤から 新宿東口店,赤から,鍋・居酒屋,東京都新宿区,https://www.google.com/maps/search/?api=1&query=%E8%B5%A4%E3%81%8B%E3%82%89%20%E6%96%B0%E5%AE%BF%E6%9D%B1%E5%8F%A3%E5%BA%97&query_place_id=ChIJQ5SMEtqMGGARkq2xnnT-VFY,ChIJQ5SMEtqMGGARkq2xnnT-VFY
+store_9,akakara_kyoto_fushimi,赤から京都伏見店,赤から,鍋・居酒屋,京都府京都市,https://www.google.com/maps/search/?api=1&query=%E8%B5%A4%E3%81%8B%E3%82%89%E4%BA%AC%E9%83%BD%E4%BC%8F%E8%A6%8B%E5%BA%97&query_place_id=ChIJw-voa2QFAWARCWKsjY9u8ac,ChIJw-voa2QFAWARCWKsjY9u8ac
+store_10,akakara_niigata_bandai_city,赤から 新潟万代シティ店,赤から,鍋・居酒屋,新潟県新潟市,https://www.google.com/maps/search/?api=1&query=%E8%B5%A4%E3%81%8B%E3%82%89%20%E6%96%B0%E6%BD%9F%E4%B8%87%E4%BB%A3%E3%82%B7%E3%83%86%E3%82%A3%E5%BA%97&query_place_id=ChIJSUSnZgzJ9F8RWQJn7nWhTeE,ChIJSUSnZgzJ9F8RWQJn7nWhTeE
+store_11,akakara_fukuoka_higashi,赤から福岡東店,赤から,鍋・居酒屋,福岡県糟屋郡粕屋町,https://www.google.com/maps/search/?api=1&query=%E8%B5%A4%E3%81%8B%E3%82%89%E7%A6%8F%E5%B2%A1%E6%9D%B1%E5%BA%97&query_place_id=ChIJoQTMhj-PQTUR_oimdHjRCb8,ChIJoQTMhj-PQTUR_oimdHjRCb8
+store_12,akakara_takasaki_tonyamachi,赤から高崎問屋町店,赤から,鍋・居酒屋,群馬県高崎市,https://www.google.com/maps/search/?api=1&query=%E8%B5%A4%E3%81%8B%E3%82%89%E9%AB%98%E5%B4%8E%E5%95%8F%E5%B1%8B%E7%94%BA%E5%BA%97&query_place_id=ChIJFTw5g3-NHmARZVTpMAqbdUs,ChIJFTw5g3-NHmARZVTpMAqbdUs
+store_13,akakara_otagawa,赤から太田川店,赤から,鍋・居酒屋,愛知県東海市,https://www.google.com/maps/search/?api=1&query=%E8%B5%A4%E3%81%8B%E3%82%89%E5%A4%AA%E7%94%B0%E5%B7%9D%E5%BA%97&query_place_id=ChIJNQ4d5Hx-A2ARwEQkEeIeQ1U,ChIJNQ4d5Hx-A2ARwEQkEeIeQ1U

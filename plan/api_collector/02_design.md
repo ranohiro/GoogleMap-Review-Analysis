@@ -23,12 +23,20 @@
 
 | | Outscraper | Apify（`compass/google-maps-reviews-scraper` など） |
 |---|---|---|
-| 無料枠 | 月 500 件まで | 毎月 $5 分のクレジット |
+| 無料枠 | 月 500 件まで | $10 分のクレジット（アカウント作成時に確認。毎月付与かは要確認） |
 | 無料枠での取得方法 | **Web 画面から CSV / XLSX をダウンロード**（API は有料の Medium 以上） | API・Web 画面の両方（要確認） |
-| 有料時の単価 | 501〜100,000 件: $3 / 1,000 件 | Actor ごとに違う。公式 Actor は $0.35〜0.50 / 1,000 件程度の表示あり |
+| 有料時の単価 | 501〜100,000 件: $3 / 1,000 件 | 公式 Actor（無料プランの単価、2026-10-31 に API で確認）: 口コミ $0.60 / 1,000 件、店舗検索 $0.004 / 店舗、起動 $0.00005 / 回 |
 | 注意点 | 有料にしないと自動化できない | 無料プランで「1 店舗 10 件まで」などの制限があるという情報あり（未確認） |
 
-現在の 2 店舗は合わせて 160 件前後（Playwright で store_2 が 154 件）なので、どちらの無料枠にも収まる見込みです。
+### 1.2 店舗の割り当て（2026-10-31 決定）
+
+| 取得元 | 店舗 | 件数の目安 |
+|---|---|---|
+| Playwright（既存データのまま） | store_1, store_2（つくば研究学園店） | 159 件。人手ラベルもこのデータに付いているので、外部サービスでは取り直さない |
+| Outscraper（無料枠の CSV） | store_3 柏西口店（203 件 → 200 件取得）、store_4 上野駅前店、store_5 池袋西口店 | 合計 500 件程度（月の無料枠いっぱい） |
+| Apify（$10 のクレジット） | 「口コミ数の多い・少ない × 星の高い・低い」の 4 区分からバランスよく選ぶ店舗 | 店舗検索の結果を見て決める |
+
+サービス間の比較は、Outscraper の 1 店舗（store_4 など）を Apify でも取得して行う（$0.15 程度）。比較用に取った方のデータは `data/raw/` に置かない（§2.2）。
 
 ---
 
@@ -134,19 +142,25 @@
 
 ### 4.2 Apify（`compass/google-maps-reviews-scraper` の場合）
 
+2026-10-31 のテスト取得（上野駅前店 1 件）で、下表のフィールドがすべて存在することを確認した（○）。値の確認は本文ありの口コミで続ける。
+- `publishedAtDate` は `2026-10-24T07:39:14.984Z` 形式（UTC）、`publishAt` は「1 週間前」
+- `reviewId` は `Ci9DQU…` で始まる 68 文字
+- 星だけの口コミは `text` が空
+- そのほかに取れる項目: `reviewDetailedRating`（例: 食事・サービス・雰囲気の 1〜5）、`reviewContext`（例: 1 人あたりの料金）、`originalLanguage`、`likesCount`、店舗の `placeId`・`fid`・`totalScore`・`reviewsCount`
+
 | raw CSV の列 | 候補フィールド | 変換 | 確定 |
 |---|---|---|:-:|
-| `review_id` | `reviewId` | 文字列 | |
-| `reviewer_name` | `name` | 文字列 | |
-| `reviewer_id` | `reviewerId` | 文字列 | |
-| `is_local_guide` | `isLocalGuide` | 真偽値 | |
-| `reviewer_review_count` | `reviewerNumberOfReviews` | 整数 | |
-| `rating` | `stars` | 整数 | |
-| `review_text` | `text`（`textTranslated` は使わない） | 原文 | |
-| `post_time` | `publishedAtDate`（ISO 8601、UTC） | UTC → JST | |
-| `relative_time` | `publishAt`（「2 か月前」など） | 文字列 | |
-| `owner_reply` | `responseFromOwnerText` | 文字列 | |
-| `owner_reply_time` | `responseFromOwnerDate` | UTC → JST | |
+| `review_id` | `reviewId` | 文字列 | ○ |
+| `reviewer_name` | `name` | 文字列 | ○ |
+| `reviewer_id` | `reviewerId` | 文字列 | ○ |
+| `is_local_guide` | `isLocalGuide` | 真偽値 | ○ |
+| `reviewer_review_count` | `reviewerNumberOfReviews` | 整数 | ○ |
+| `rating` | `stars` | 整数 | ○ |
+| `review_text` | `text`（`textTranslated` は使わない） | 原文 | ○ |
+| `post_time` | `publishedAtDate`（ISO 8601、UTC） | UTC → JST | ○ |
+| `relative_time` | `publishAt`（「2 か月前」など） | 文字列 | ○ |
+| `owner_reply` | `responseFromOwnerText` | 文字列 | ○ |
+| `owner_reply_time` | `responseFromOwnerDate` | UTC → JST | ○ |
 
 ### 4.3 共通
 
@@ -294,7 +308,7 @@ Outscraper のファイルに複数店舗が入っている場合は、`--store`
 - `--dry-run` と `--from-file` は外部サービスを一切呼ばない。
 - 対話できない環境（パイプ・cron など）でしきい値を超えたら、`--yes` がない限り中止する。
 - `limit` が総件数より少ないときは「最新ファイルだけが使われるので、過去分が分析から外れる」と警告する（§3.3）。
-- Apify では、1 回の実行あたりの課金上限を入力で指定できる場合がある（`maxTotalChargeUsd` などが候補）。使えるなら必ず指定する。
+- Apify では実行ごとに課金上限（`maxTotalChargeUsd`）を必ず指定する。**指定できる最小値は $0.50**（それ未満は実行開始時にエラーになり、課金されない）。件数の上限（`maxReviews` など）と組み合わせて使う。
 
 ---
 
@@ -363,7 +377,7 @@ Outscraper のファイルに複数店舗が入っている場合は、`--store`
 | ID | 内容 | 現時点の方針 | 決める時期 |
 |---|---|---|---|
 | D1 | 採用するサービス | 無料枠で Outscraper（CSV）と Apify（API）を比べてから決める。評価項目は [03_execution_plan.md Phase 1](03_execution_plan.md#phase-1-無料枠での比較) | Phase 1 の終わり |
-| D2 | 取得の規模 | 当面は現在の 2 店舗 × 全件。寄与度分析（analysis_proposal フェーズ 4）に向けて数十店舗へ広げる前提で設計する | Phase 1 の終わり |
-| D3 | 予算 | 無料枠の範囲で始め、データの質を見て決める。決めるまでは課金が発生する実行をしない | Phase 1 の終わり |
+| D2 | 取得の規模 | §1.2 のとおり。Outscraper 3 店舗＋Apify で 4 区分の店舗（クレジットの範囲内） | 決定済み（Apify の店舗は検索結果を見て決める） |
+| D3 | 予算 | 無料枠と Apify の $10 クレジットの範囲で行う。クレジットを使う実行は毎回、見積もりを示して承認を得る | Phase 1 の終わりに見直す |
 | D4 | Playwright 版の扱い | 予備として残す。外部サービスに切り替えた店舗では使わない | Phase 5 |
 | D5 | `stores.csv` への `place_id` 列追加 | 追加する | Phase 0 |

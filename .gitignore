@@ -27,3 +27,6 @@ data/processed/*
 !data/processed/.gitkeep
 data/logs/*
 !data/logs/.gitkeep
+
+# 外部サービスの元データ（個人情報を含む）
+data/raw_vendor/
