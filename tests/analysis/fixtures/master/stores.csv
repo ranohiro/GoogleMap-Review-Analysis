@@ -1,0 +1,4 @@
+store_key,store_id,store_name,brand,genre,area,url,place_id
+store_1,mock_store_1,架空赤から 渋谷店,赤から,鍋・居酒屋,東京都渋谷区,https://maps.test/1,ChIJ_mock_1
+store_2,mock_store_2,架空赤から 新宿店,赤から,鍋・居酒屋,東京都新宿区,https://maps.test/2,ChIJ_mock_2
+store_3,mock_store_3,架空赤から 池袋店,赤から,鍋・居酒屋,東京都豊島区,https://maps.test/3,

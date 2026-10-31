@@ -1,0 +1,26 @@
+﻿review_uid,review_id,store_id,rating,review_text,has_text,text_len,reviewer_name,reviewer_id,reviewer_attributes,is_local_guide,reviewer_review_count,post_time,time_is_estimated,post_year,has_owner_reply,owner_reply_time,language,overall_sentiment,llm_tagged
+mock_uid_001,rev_001,mock_store_1,5,赤から鍋の辛さ5番が絶品でした！店員さんも親切でした。,True,27,FakeUser_1,fake_author_1,ローカルガイド,False,4,2024-01-15 19:30:00,False,2024,True,2024-01-16 10:00:00,ja,1.0,True
+mock_uid_002,rev_002,mock_store_1,4,スープの味がとても美味しくて箸が進みます。提供も早かった。,True,29,FakeUser_2,fake_author_2,ローカルガイド,False,8,2024-02-10 18:00:00,False,2024,False,,ja,1.0,True
+mock_uid_003,rev_003,mock_store_1,1,呼び出しボタンを何度押しても店員が来ず、料理も30分以上待たされた。最悪。,True,37,FakeUser_3,fake_author_3,ローカルガイド,True,12,2024-03-05 20:15:00,False,2024,True,2024-03-06 09:00:00,ja,-1.0,True
+mock_uid_004,rev_004,mock_store_1,2,値段の割に肉の量が少なくてがっかり。コスパが悪いです。,True,27,FakeUser_4,fake_author_4,ローカルガイド,False,16,2024-04-12 21:00:00,False,2024,False,,ja,-1.0,True
+mock_uid_005,rev_005,mock_store_1,5,The hot pot was spicy and wonderful! Friendly staff.,True,52,FakeUser_5,fake_author_5,ローカルガイド,False,20,2024-05-20 19:00:00,False,2024,False,,en,1.0,True
+mock_uid_006,rev_006,mock_store_1,3,普通の居酒屋です。清潔感は普通でした。,True,19,FakeUser_6,fake_author_6,ローカルガイド,True,24,2023-06-01 12:00:00,True,2023,False,,ja,0.0,True
+mock_uid_007,rev_007,mock_store_1,1,テーブルが汚れていてベタベタしていた。店員の愛想も悪い。,True,28,FakeUser_7,fake_author_7,ローカルガイド,False,28,2024-07-08 18:45:00,False,2024,False,,ja,-1.0,True
+mock_uid_008,rev_008,mock_store_1,4,辛い鍋を食べたくなったらここ。締めラーメンも最高。,True,25,FakeUser_8,fake_author_8,ローカルガイド,False,32,2022-08-11 19:00:00,True,2022,False,,ja,1.0,True
+mock_uid_009,rev_009,mock_store_1,4,,False,0,FakeUser_9,fake_author_9,ローカルガイド,True,36,2021-09-01 00:00:00,True,2021,False,,,1.0,False
+mock_uid_010,rev_010,mock_store_1,5,,False,0,FakeUser_10,fake_author_10,ローカルガイド,False,40,2021-09-10 00:00:00,True,2021,False,,,1.0,False
+mock_uid_011,rev_011,mock_store_1,2,接客態度が威圧的で気分が悪くなった。もう行きません。,True,26,FakeUser_11,fake_author_11,ローカルガイド,False,44,2024-09-15 20:00:00,False,2024,True,2024-09-20 14:00:00,ja,-1.0,True
+mock_uid_012,rev_012,mock_store_1,5,個室の雰囲気が落ち着いていて女子会にぴったりでした。,True,26,FakeUser_12,fake_author_12,ローカルガイド,True,48,2024-10-01 18:30:00,False,2024,False,,ja,1.0,True
+mock_uid_013,rev_013,mock_store_1,3,味は普通ですが飲み放題の提供は早かったです。,True,22,FakeUser_13,fake_author_13,ローカルガイド,False,52,2024-10-10 21:30:00,False,2024,False,,ja,0.0,True
+mock_uid_014,rev_014,mock_store_1,3,,False,0,FakeUser_14,fake_author_14,ローカルガイド,False,56,2020-01-01 00:00:00,True,2020,False,,,,False
+mock_uid_015,rev_015,mock_store_1,4,せせり焼きが香ばしくて美味しいです。,True,18,FakeUser_15,fake_author_15,ローカルガイド,True,60,2024-10-25 19:15:00,False,2024,False,,ja,1.0,True
+mock_uid_016,rev_016,mock_store_2,1,注文した鍋が40分来ない。店員に催促しても謝罪なし。,True,26,FakeUser_16,fake_author_16,ローカルガイド,False,64,2024-02-14 20:00:00,False,2024,False,,ja,-1.0,True
+mock_uid_017,rev_017,mock_store_2,2,エアコンの風が直撃して寒かった。鍋の味は良かったのに残念。,True,29,FakeUser_17,fake_author_17,ローカルガイド,False,68,2024-03-22 19:30:00,False,2024,False,,ja,-1.0,True
+mock_uid_018,rev_018,mock_store_2,5,大満足！スープが濃厚でつくねも絶品でした。また来ます。,True,27,FakeUser_18,fake_author_18,ローカルガイド,True,72,2024-04-18 18:00:00,False,2024,True,2024-04-19 11:00:00,ja,1.0,True
+mock_uid_019,rev_019,mock_store_2,4,"Nice dining experience, friendly staff.",True,39,FakeUser_19,fake_author_19,ローカルガイド,False,76,2024-05-02 20:00:00,False,2024,False,,en,1.0,True
+mock_uid_020,rev_020,mock_store_2,1,床が油で滑りそうだった。衛生管理をちゃんとしてほしい。,True,27,FakeUser_20,fake_author_20,ローカルガイド,False,80,2024-06-19 19:45:00,False,2024,False,,ja,-1.0,True
+mock_uid_021,rev_021,mock_store_2,2,呼び出しボタンを押しても全然店員さんが来ない。,True,23,FakeUser_21,fake_author_21,ローカルガイド,True,84,2024-07-29 21:00:00,False,2024,False,,ja,-1.0,True
+mock_uid_022,rev_022,mock_store_2,4,コスパ良くてボリューム満点です。,True,16,FakeUser_22,fake_author_22,ローカルガイド,False,88,2024-08-15 18:30:00,False,2024,False,,ja,1.0,True
+mock_uid_023,rev_023,mock_store_2,3,,False,0,FakeUser_23,fake_author_23,ローカルガイド,False,92,2023-01-01 00:00:00,True,2023,False,,,,False
+mock_uid_024,rev_024,mock_store_2,2,,False,0,FakeUser_24,fake_author_24,ローカルガイド,True,96,2023-02-01 00:00:00,True,2023,False,,,,False
+mock_uid_025,rev_025,mock_store_2,3,普通の赤からです。可もなく不可もなく。,True,19,FakeUser_25,fake_author_25,ローカルガイド,False,100,2024-09-05 19:00:00,False,2024,False,,ja,0.0,True

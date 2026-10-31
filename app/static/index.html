@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Googleマップ 口コミ分析ダッシュボード</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-icon">📊</div>
+        <div class="logo-text">
+          <h1>口コミ分析ツール</h1>
+          <span class="badge-bff">BFF + SPA</span>
+        </div>
+      </div>
+
+      <!-- ナビゲーションメニュー -->
+      <nav class="nav-menu">
+        <button class="nav-item active" data-tab="overview">
+          <span class="icon">🏬</span>
+          <span class="label">① 全店舗一覧</span>
+        </button>
+        <button class="nav-item" data-tab="aspects">
+          <span class="icon">🧭</span>
+          <span class="label">② 観点マップ</span>
+        </button>
+        <button class="nav-item" data-tab="low_rating">
+          <span class="icon">⚠️</span>
+          <span class="label">③ 低評価の要因</span>
+        </button>
+        <button class="nav-item" data-tab="search">
+          <span class="icon">🔍</span>
+          <span class="label">④ 口コミ検索</span>
+        </button>
+        <button class="nav-item" data-tab="compare">
+          <span class="icon">⚖️</span>
+          <span class="label">⑤ 店舗比較</span>
+        </button>
+        <button class="nav-item" data-tab="trends">
+          <span class="icon">📈</span>
+          <span class="label">⑥ 推移</span>
+        </button>
+      </nav>
+
+      <!-- 共通フィルター -->
+      <div class="filter-section">
+        <div class="filter-header">
+          <h3>共通フィルター</h3>
+          <button id="btn-reset-filters" class="btn-text">リセット</button>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-store">対象店舗</label>
+          <select id="filter-store" class="form-control">
+            <option value="">全店舗 (統合表示)</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>星評価</label>
+          <div class="rating-checkboxes">
+            <label class="checkbox-label"><input type="checkbox" name="rating-filter" value="5" checked> ★5</label>
+            <label class="checkbox-label"><input type="checkbox" name="rating-filter" value="4" checked> ★4</label>
+            <label class="checkbox-label"><input type="checkbox" name="rating-filter" value="3" checked> ★3</label>
+            <label class="checkbox-label"><input type="checkbox" name="rating-filter" value="2" checked> ★2</label>
+            <label class="checkbox-label"><input type="checkbox" name="rating-filter" value="1" checked> ★1</label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <label for="filter-lang">言語</label>
+          <select id="filter-lang" class="form-control">
+            <option value="">すべての言語</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>期間</label>
+          <div class="date-range-inputs">
+            <input type="date" id="filter-date-start" class="form-control date-input">
+            <span>〜</span>
+            <input type="date" id="filter-date-end" class="form-control date-input">
+          </div>
+        </div>
+
+        <div class="filter-group toggle-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="filter-has-text" checked>
+            <span>本文ありのみ</span>
+          </label>
+        </div>
+
+        <div class="filter-group toggle-group">
+          <label class="toggle-label">
+            <input type="checkbox" id="filter-exclude-estimated">
+            <span>推定日時を除外</span>
+          </label>
+        </div>
+
+        <button id="btn-apply-filters" class="btn-primary w-full">フィルター適用</button>
+      </div>
+
+      <!-- メタデータフッター -->
+      <div class="sidebar-footer">
+        <div class="meta-item">
+          <span class="meta-label">観点モデル:</span>
+          <span id="meta-prompt-version" class="meta-value">-</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">更新日時:</span>
+          <span id="meta-data-mtime" class="meta-value">-</span>
+        </div>
+        <div class="meta-note">
+          ※ 分母 n &lt; 20 の値は「参考値」として表示されます
+        </div>
+      </div>
+    </aside>
+
+    <!-- メインコンテンツ -->
+    <main class="main-content">
+      <!-- ヘッダーバー -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <h2 id="page-title">全店舗一覧</h2>
+          <span id="data-status-badge" class="badge-status">データ読込中</span>
+        </div>
+        <div class="top-bar-right">
+          <div id="quick-stats" class="quick-stats">
+            <span class="stat-pill">総口コミ: <strong id="header-total-reviews">0</strong> 件</span>
+            <span class="stat-pill">平均星: <strong id="header-avg-rating">-</strong></span>
+          </div>
+        </div>
+      </header>
+
+      <!-- 画面コンテンツコンテナ -->
+      <div class="tab-content-container">
+
+        <!-- ① 全店舗一覧 (Overview) -->
+        <section id="view-overview" class="view-panel active">
+          <div class="metric-cards-grid">
+            <div class="card metric-card">
+              <div class="metric-title">登録店舗数</div>
+              <div id="overview-total-stores" class="metric-value">0</div>
+              <div class="metric-sub">Googleマップ掲載店舗</div>
+            </div>
+            <div class="card metric-card">
+              <div class="metric-title">口コミ収集済店舗</div>
+              <div id="overview-collected-stores" class="metric-value">0</div>
+              <div class="metric-sub">Parquet に蓄積済み</div>
+            </div>
+            <div class="card metric-card">
+              <div class="metric-title">全体平均評価</div>
+              <div id="overview-avg-rating" class="metric-value">-</div>
+              <div class="metric-sub">全店舗の星平均</div>
+            </div>
+          </div>
+
+          <div class="charts-grid-2">
+            <!-- 散布図: 口コミ数 × 星評価 -->
+            <div class="card chart-card">
+              <div class="card-header">
+                <h3>店舗ポジショニング（口コミ数 × 星評価）</h3>
+                <span class="hint-text">●: 収集済店舗 / ○: 未収集店舗 (クリックで店舗選択)</span>
+              </div>
+              <div id="chart-places-scatter" class="chart-box"></div>
+            </div>
+
+            <!-- 都道府県別サマリー -->
+            <div class="card">
+              <div class="card-header">
+                <h3>都道府県別 店舗数・平均星</h3>
+              </div>
+              <div class="table-wrapper scrollable-table">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>都道府県</th>
+                      <th>店舗数</th>
+                      <th>平均星</th>
+                      <th>総口コミ数</th>
+                      <th>収集済</th>
+                    </tr>
+                  </thead>
+                  <tbody id="overview-pref-tbody">
+                    <!-- 動的生成 -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- 未紐付け店舗注意喚起 -->
+          <div id="overview-unmatched-section" class="card note-card" style="display: none;">
+            <h4>⚠️ 店舗マスタにあり、Google検索一覧で特定できなかった店舗</h4>
+            <ul id="overview-unmatched-list"></ul>
+          </div>
+        </section>
+
+        <!-- ② 観点マップ (Aspect Map) -->
+        <section id="view-aspects" class="view-panel">
+          <div id="aspects-untagged-banner" class="alert-banner warning" style="display: none;">
+            ⚠️ タグ付けデータ (reviews_tagged.parquet) がありません。星評価・口コミ一覧のみ表示しています。
+          </div>
+
+          <div class="charts-grid-2">
+            <!-- 観点散布図 -->
+            <div class="card chart-card">
+              <div class="card-header">
+                <div>
+                  <h3>観点マップ（平均感情 × 言及率）</h3>
+                  <p class="chart-desc">左上（言及率が高く評価が低い観点）が最優先の改善対象です。点をクリックすると詳細サブトピックが表示されます。</p>
+                </div>
+              </div>
+              <div id="chart-aspects-scatter" class="chart-box"></div>
+              <div class="chart-footer-note">※ 点の大きさ = 言及件数。n &lt; 20 の観点は薄色（参考値）表示。</div>
+            </div>
+
+            <!-- サブトピック詳細 -->
+            <div class="card">
+              <div class="card-header">
+                <div class="flex-between">
+                  <div>
+                    <h3 id="subtopic-panel-title">具体的な不満・言及対象</h3>
+                    <p class="chart-desc" id="subtopic-panel-desc">観点を選択してください</p>
+                  </div>
+                  <div class="btn-toggle-group">
+                    <button class="btn-toggle active" data-sentiment="neg">不満 (否定)</button>
+                    <button class="btn-toggle" data-sentiment="pos">好評 (肯定)</button>
+                  </div>
+                </div>
+              </div>
+              <div class="table-wrapper">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>言及対象 (Subtopic)</th>
+                      <th>件数</th>
+                      <th>言及比率</th>
+                      <th>原文一致率</th>
+                    </tr>
+                  </thead>
+                  <tbody id="aspects-subtopics-tbody">
+                    <tr><td colspan="4" class="text-center text-muted">観点マップの点をクリック、または観点を選択してください</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- 観点集計表 -->
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3>観点別指標一覧</h3>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>観点</th>
+                    <th>言及数 (n)</th>
+                    <th>言及率 [95% CI]</th>
+                    <th>平均感情 [95% CI]</th>
+                    <th>ネット感情</th>
+                    <th>否定率 [95% CI]</th>
+                    <th>判定</th>
+                  </tr>
+                </thead>
+                <tbody id="aspects-summary-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ③ 低評価の要因 (Low Rating Drivers) -->
+        <section id="view-low_rating" class="view-panel">
+          <div class="charts-grid-2">
+            <!-- Lift 棒グラフ -->
+            <div class="card chart-card">
+              <div class="card-header">
+                <div>
+                  <h3>低評価（★1〜2）特有の不満要因 (Lift)</h3>
+                  <p class="chart-desc">Lift &gt; 1.0 は、高評価に比べて低評価で特に多く言及される不満であることを示します（エラーバー: 95%信頼区間）。バーをクリックで原文を確認できます。</p>
+                </div>
+              </div>
+              <div id="chart-low-rating-lift" class="chart-box"></div>
+            </div>
+
+            <!-- 原文根拠ドリルダウン -->
+            <div class="card">
+              <div class="card-header">
+                <h3 id="evidence-panel-title">低評価の原文・根拠抜粋</h3>
+                <span id="evidence-panel-count" class="badge-pill">0 件</span>
+              </div>
+              <div id="evidence-quotes-container" class="evidence-list-box scrollable-box">
+                <div class="text-center text-muted p-4">左のグラフで観点を選択すると、低評価レビューの原文抜粋が表示されます</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ④ 口コミ検索 (Review Search) -->
+        <section id="view-search" class="view-panel">
+          <div class="card">
+            <!-- 検索ツールバー -->
+            <div class="search-toolbar">
+              <div class="search-inputs">
+                <input type="text" id="review-search-query" class="form-control" placeholder="口コミ本文をキーワード検索...">
+                <select id="review-search-aspect" class="form-control">
+                  <option value="">すべての観点</option>
+                </select>
+                <select id="review-search-sentiment" class="form-control">
+                  <option value="">感情指定なし</option>
+                  <option value="neg">否定的な言及のみ</option>
+                  <option value="pos">肯定的な言及のみ</option>
+                </select>
+                <button id="btn-search-reviews" class="btn-primary">検索</button>
+              </div>
+              <div class="search-actions">
+                <button id="btn-export-csv" class="btn-secondary">📥 CSV書き出し</button>
+              </div>
+            </div>
+
+            <div class="search-stats-bar">
+              <span>検索結果: <strong id="search-total-count">0</strong> 件</span>
+              <span id="search-page-indicator">ページ 1 / 1</span>
+            </div>
+
+            <!-- レビューカード一覧 -->
+            <div id="reviews-list-container" class="reviews-list-container">
+              <!-- 動的生成 -->
+            </div>
+
+            <!-- ページネーション -->
+            <div class="pagination-bar">
+              <button id="btn-page-prev" class="btn-page" disabled>前へ</button>
+              <span id="pagination-pages" class="pagination-pages"></span>
+              <button id="btn-page-next" class="btn-page" disabled>次へ</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ⑤ 店舗比較 (Store Comparison) -->
+        <section id="view-compare" class="view-panel">
+          <div class="card mb-4">
+            <div class="card-header flex-between">
+              <div>
+                <h3>店舗 × 観点 比較ヒートマップ</h3>
+                <p class="chart-desc">店舗間の強み・弱みの違いを可視化します。</p>
+              </div>
+              <div class="compare-controls">
+                <div class="control-item">
+                  <label>比較指標:</label>
+                  <select id="compare-metric-select" class="form-control">
+                    <option value="mention_rate">言及率 (話題度)</option>
+                    <option value="net_sentiment">ネット感情 ((肯定-否定)/言及)</option>
+                    <option value="neg_rate">否定率 (不満度)</option>
+                    <option value="avg_sentiment">平均感情 (-2〜+2)</option>
+                  </select>
+                </div>
+                <div class="control-item toggle-item">
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="compare-shrinkage-toggle">
+                    <span class="slider"></span>
+                  </label>
+                  <span>縮小推定（経験ベイズ）</span>
+                </div>
+              </div>
+            </div>
+            <div id="chart-compare-heatmap" class="chart-box-large"></div>
+            <div class="chart-footer-note">
+              ※ 縮小推定: 口コミ件数が少ない店舗の比率を全体平均へとベイズ的に平滑化し、小サンプルによる極端なブレを防ぎます。
+            </div>
+          </div>
+
+          <!-- 店舗別返信率テーブル -->
+          <div class="card">
+            <div class="card-header">
+              <h3>店舗別 オーナー返信率・評価比較</h3>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>店舗</th>
+                    <th>総口コミ数</th>
+                    <th>平均星</th>
+                    <th>全体返信率 [95% CI]</th>
+                    <th>低評価(★1-2)返信率</th>
+                    <th>返信日数(中央値)</th>
+                  </tr>
+                </thead>
+                <tbody id="compare-reply-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ⑥ 推移 (Trends) -->
+        <section id="view-trends" class="view-panel">
+          <div id="trends-estimated-banner" class="alert-banner info">
+            ℹ️ 推定日時の口コミ <strong id="trends-excluded-count">0</strong> 件を除外して月次推移を集計しています。
+          </div>
+
+          <div class="card chart-card mb-4">
+            <div class="card-header">
+              <h3>月別 口コミ件数 &amp; 平均星 推移</h3>
+            </div>
+            <div id="chart-monthly-volume-rating" class="chart-box"></div>
+          </div>
+
+          <div class="card chart-card mb-4">
+            <div class="card-header">
+              <h3>観点別 否定率の月別推移</h3>
+              <p class="chart-desc">施策や季節による不満率の変化を追跡します。</p>
+            </div>
+            <div id="chart-monthly-aspect-neg" class="chart-box"></div>
+          </div>
+
+          <!-- 前後比較セクション -->
+          <div class="card mb-4">
+            <div class="card-header flex-between">
+              <div>
+                <h3>施策効果の前後比較</h3>
+                <p class="chart-desc">メニュー改定やオペレーション改善の日付を指定して前後を比較します。</p>
+              </div>
+              <div class="split-date-input-group">
+                <label for="trend-split-date">基準日:</label>
+                <input type="date" id="trend-split-date" class="form-control date-input">
+                <button id="btn-run-before-after" class="btn-primary">比較実行</button>
+              </div>
+            </div>
+            <div id="before-after-results-container" class="before-after-grid" style="display: none;">
+              <!-- 動的生成 -->
+            </div>
+          </div>
+
+          <!-- 店舗一覧スナップショット推移 -->
+          <div id="snapshot-history-card" class="card" style="display: none;">
+            <div class="card-header">
+              <h3>Googleマップ店舗一覧 スナップショット推移</h3>
+            </div>
+            <div id="chart-snapshots-history" class="chart-box"></div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/js/charts.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
