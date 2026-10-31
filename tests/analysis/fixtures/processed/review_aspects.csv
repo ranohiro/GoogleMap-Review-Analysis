@@ -1,0 +1,32 @@
+﻿review_uid,store_id,aspect,aspect_label,sentiment,subtopic,evidence,evidence_verbatim
+mock_uid_001,mock_store_1,taste,味,2,鍋の辛さ,絶品でした,True
+mock_uid_001,mock_store_1,service,接客,1,接客,親切でした,True
+mock_uid_002,mock_store_1,taste,味,2,スープ,美味しくて,True
+mock_uid_002,mock_store_1,speed,提供時間・待ち,1,提供時間,早かった,True
+mock_uid_003,mock_store_1,service,接客,-2,呼び出しボタン,店員が来ず,True
+mock_uid_003,mock_store_1,speed,提供時間・待ち,-2,待ち時間,30分以上待たされた,True
+mock_uid_004,mock_store_1,price,価格,-1,コスパ,コスパが悪いです,True
+mock_uid_004,mock_store_1,taste,味,-1,肉の量,量が少なくて,True
+mock_uid_005,mock_store_1,taste,味,2,hot pot,spicy and wonderful,True
+mock_uid_005,mock_store_1,service,接客,2,staff,Friendly staff,True
+mock_uid_006,mock_store_1,cleanliness,清潔さ,0,店内,清潔感は普通でした,True
+mock_uid_007,mock_store_1,cleanliness,清潔さ,-2,テーブル,ベタベタしていた,True
+mock_uid_007,mock_store_1,service,接客,-2,店員の愛想,愛想も悪い,True
+mock_uid_008,mock_store_1,taste,味,2,締めラーメン,最高,True
+mock_uid_011,mock_store_1,service,接客,-2,接客態度,威圧的で気分が悪くなった,True
+mock_uid_012,mock_store_1,atmosphere,雰囲気,2,個室,落ち着いていて,True
+mock_uid_013,mock_store_1,taste,味,0,味,味は普通,True
+mock_uid_013,mock_store_1,speed,提供時間・待ち,1,飲み放題の提供,早かったです,True
+mock_uid_015,mock_store_1,taste,味,1,せせり焼き,香ばしくて美味しい,True
+mock_uid_016,mock_store_2,speed,提供時間・待ち,-2,提供時間,40分来ない,True
+mock_uid_016,mock_store_2,service,接客,-2,謝罪,謝罪なし,True
+mock_uid_017,mock_store_2,atmosphere,雰囲気,-1,エアコン,風が直撃して寒かった,True
+mock_uid_017,mock_store_2,taste,味,1,鍋の味,味は良かった,True
+mock_uid_018,mock_store_2,taste,味,2,スープ,濃厚で,True
+mock_uid_018,mock_store_2,taste,味,2,つくね,絶品でした,True
+mock_uid_019,mock_store_2,atmosphere,雰囲気,1,experience,Nice dining experience,True
+mock_uid_019,mock_store_2,service,接客,1,staff,friendly staff,True
+mock_uid_020,mock_store_2,cleanliness,清潔さ,-2,床,滑りそうだった,True
+mock_uid_021,mock_store_2,service,接客,-2,呼び出しボタン,全然店員さんが来ない,True
+mock_uid_022,mock_store_2,price,価格,1,コスパ,コスパ良くて,True
+mock_uid_025,mock_store_2,taste,味,0,赤から,可もなく不可もなく,True

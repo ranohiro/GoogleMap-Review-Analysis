@@ -1,0 +1,6 @@
+﻿store_name,rating,reviews_count,prefecture,city,url,placeId
+架空赤から 渋谷店,4.2,120,東京都,渋谷区,https://maps.test/1,ChIJ_mock_1
+架空赤から 新宿店,3.4,80,東京都,新宿区,https://maps.test/2,ChIJ_mock_2
+架空赤から 池袋店,3.8,50,東京都,豊島区,https://maps.test/3,ChIJ_other_3
+架空赤から 横浜西口店,4.0,210,神奈川県,横浜市,https://maps.test/4,ChIJ_mock_4
+架空赤から 名古屋駅前店,4.5,350,愛知県,名古屋市,https://maps.test/5,ChIJ_mock_5
